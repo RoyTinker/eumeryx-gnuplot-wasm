@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gnuplot wasm demo</title>
+  </head>
+  <body>
+    <textarea name="input" id="input" cols="70" rows="14">plot x;</textarea>
+    <button id="render-gnuplot-btn">render</button>
+    <div id="svg-container" style="max-width: 800px; white-space: pre-wrap;"></div>
+    <script type="importmap">
+      {
+        "imports": {
+          "gnuplot": "./gnuplot.mjs"
+        }
+      }
+    </script>
+    <script type="module">
+      import { createGnuplot } from 'gnuplot';
+
+      const svgContainer = document.getElementById('svg-container');
+      const renderBtn = document.getElementById('render-gnuplot-btn');
+
+      let gnuplot;
+
+      createGnuplot()
+        .then(result => { gnuplot = result; })
+        .catch(err => {
+          svgContainer.innerHTML = err;
+          console.error(err);
+        });
+
+      renderBtn.addEventListener('click', () => {
+        const input = document.getElementById('input').value;
+
+        try {
+          svgContainer.innerHTML = gnuplot(input);
+        } catch (err) {
+          svgContainer.innerHTML = err.message;
+        }
+      });
+    </script>
+  </body>
+</html>

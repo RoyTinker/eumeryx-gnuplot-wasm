@@ -1,0 +1,29 @@
+{
+  "name": "gnuplot-wasm",
+  "version": "0.0.3",
+  "description": "Gnuplot compiled to WebAssembly and JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "build": "./build.sh",
+    "clean": "rm -rf dist/*",
+    "test": "node test/test.js",
+    "serve": "http-server ./dist -p 8080 && open http://localhost:8080/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eumeryx/gnuplot-wasm.git"
+  },
+  "keywords": [
+    "gnuplot",
+    "wasm"
+  ],
+  "author": "Eumeryx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Eumeryx/gnuplot-wasm/issues"
+  },
+  "homepage": "https://github.com/Eumeryx/gnuplot-wasm#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

@@ -88,13 +88,21 @@ function build {
     LDFLAGS="--js-transform $ROOT/apply_template.sh -sINVOKE_RUN=0 -sENVIRONMENT=web -sINCOMING_MODULE_JS_API=arguments,printErr,onAbort,onRuntimeInitialized,instantiateWasm" \
     EXEEXT=".js" \
     gnuplot
+
+  emmake make \
+    CFLAGS="-Oz -flto" \
+    CXXFLAGS="-Oz -flto" \
+    LDFLAGS="-sINVOKE_RUN=0 -sENVIRONMENT=web -sINCOMING_MODULE_JS_API=arguments,printErr,onAbort,onRuntimeInitialized,instantiateWasm" \
+    EXEEXT=".mjs" \
+    gnuplot
 }
 
 function install {
-  [ -f "$WORK/src/gnuplot.js" ] && [ -f"$WORK/src/gnuplot.wasm" ] || build
+  [ -f "$WORK/src/gnuplot.js" ] && [ -f "$WORK/src/gnuplot.mjs" ] && [ -f "$WORK/src/gnuplot.wasm" ] || build
 
   [ -d "$DIST" ] || mkdir -p "$DIST"
   mv -vf "$WORK/src/gnuplot.js" "$DIST/gnuplot.js"
+  mv -vf "$WORK/src/gnuplot.mjs" "$DIST/gnuplot.mjs"
   mv -vf "$WORK/src/gnuplot.wasm" "$DIST/gnuplot.wasm"
   cp -vf "$ROOT/template/demo.html" "$DIST/index.html"
 }

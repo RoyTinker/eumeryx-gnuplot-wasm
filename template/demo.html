@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="preload" as="script" href="./gnuplot.js">
-    <link rel="preload" as="fetch" href="./gnuplot.wasm">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gnuplot wasm demo</title>
   </head>
   <body>
-    <textarea name="input" id="input" cols="30" rows="10">plot x;</textarea>
-    <button onclick="renderer()">render</button>
-    <div id="svg" style="max-width: 500px; white-space: pre-wrap;"></div>
+    <textarea name="input" id="input" cols="70" rows="14">plot x;</textarea>
+    <button id="render-gnuplot-btn">render</button>
+    <div id="svg-container" style="max-width: 500px; white-space: pre-wrap;"></div>
     <script src="./gnuplot.js"></script>
     <script>
-      var svgElem = document.getElementById('svg');
+      (() => {
+        const svgContainer = document.getElementById('svg-container');
+        const renderBtn = document.getElementById('render-gnuplot-btn');
 
-      createGnuplot()
-        .then(gnuplot => window.gnuplot = gnuplot)
-        .catch(err => svgElem.innerHTML = err);
+        createGnuplot()
+          .then(gnuplot => window.gnuplot = gnuplot)
+          .catch(err => svgContainer.innerHTML = err);
 
-      function renderer() {
-        var input = document.getElementById('input').value;
+        renderBtn.addEventListener('click', () => {
+          const input = document.getElementById('input').value;
 
-        try {
-          svgElem.innerHTML = gnuplot(input);
-        } catch (err) {
-          svgElem.innerHTML = err.message;
-        }
-      }
+          try {
+            svgContainer.innerHTML = gnuplot(input);
+          } catch (err) {
+            svgContainer.innerHTML = err.message;
+          }
+        });
+      })()
     </script>
   </body>
 </html>
